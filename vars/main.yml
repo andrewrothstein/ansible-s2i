@@ -1,0 +1,10 @@
+---
+# vars file for s2i
+s2i_fq_ver: '{{ s2i_ver }}-{{ s2i_buildhash }}'
+s2i_fq_platform: '{{ s2i_os }}-{{ s2i_platform }}'
+s2i_name: source-to-image-{{ s2i_fq_ver }}
+s2i_archive: '{{ s2i_name }}-{{ s2i_fq_platform }}.tar.gz'
+s2i_archive_url: '{{ s2i_mirror }}/{{ s2i_ver }}/{{ s2i_archive }}'
+s2i_checksum: '{{ s2i_checksums[s2i_fq_ver][s2i_fq_platform] }}'
+
+s2i_ver_install_dir: '{{ s2i_parent_install_dir }}/source-to-image-{{ s2i_fq_ver }}'

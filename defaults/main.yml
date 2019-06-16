@@ -1,0 +1,25 @@
+---
+# defaults fie
+s2i_ver: v1.1.14
+s2i_buildhash: 874754de
+s2i_os: linux
+s2i_platform: amd64
+s2i_mirror: https://github.com/openshift/source-to-image/releases/download
+
+s2i_parent_install_dir: /usr/local
+s2i_executables:
+  - s2i
+  - sti
+
+s2i_checksums:
+  v1.1.14-874754de:
+    # https://github.com/openshift/source-to-image/releases/download/v1.1.14/source-to-image-v1.1.14-874754de-darwin-amd64.tar.gz
+    darwin-amd64: sha256:6799ba68647d35f2e45cc87b73c981e233e4daa113c989edbc7f2860f5dde9e0
+    # https://github.com/openshift/source-to-image/releases/download/v1.1.14/source-to-image-v1.1.14-874754de-linux-386.tar.gz
+    linux-386: sha256:76e3b02cf1a69100c046c58c739071e9821ab21c449e7592baad864cce9d4e35
+    # https://github.com/openshift/source-to-image/releases/download/v1.1.14/source-to-image-v1.1.14-874754de-linux-amd64.tar.gz
+    linux-amd64: sha256:d078d6021b2dd23be5700dced923338038f9819887428923595a1ca311f8ced0
+    # https://github.com/openshift/source-to-image/releases/download/v1.1.14/source-to-image-v1.1.14-874754de-windows-amd64.zip
+    windows-amd64: sha256:a2bad54f1878f7e78b589d2e70855ce95919f95efa7825a2e550b0cee534db0a
+
+

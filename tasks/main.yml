@@ -1,0 +1,57 @@
+---
+- name: resolve platform specific vars
+  include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+      skip: true
+      paths:
+        - '{{ role_path }}/vars'
+
+- name: check for install..
+  stat:
+    path: '{{ s2i_ver_install_dir }}'
+  changed_when: False
+  register: s2i_binary_dir
+- when: not s2i_binary_dir.stat.exists
+  block:
+    - name: download archive...
+      get_url:
+        url: '{{ s2i_archive_url }}'
+        dest: /tmp/{{ s2i_archive }}
+        checksum: '{{ s2i_checksum }}'
+        mode: 0644
+    - name: mkdir
+      become: yes
+      become_user: root
+      file:
+        path: '{{ s2i_ver_install_dir }}'
+        state: directory
+        mode: 0755
+    - name: unarchive...
+      become: yes
+      become_user: root
+      unarchive:
+        remote_src: yes
+        src: /tmp/{{ s2i_archive }}
+        dest: '{{ s2i_ver_install_dir }}'
+        creates: '{{ s2i_ver_install_dir }}/s2i'
+  always:
+    - name: cleanup
+      become: yes
+      become_user: root
+      file:
+        path: /tmp/{{ s2i_archive }}
+        state: absent
+- name: link executables
+  become: yes
+  become_user: root
+  with_items: '{{ s2i_executables }}'
+  file:
+    src: '{{ s2i_ver_install_dir }}/{{ item }}'
+    dest: '{{ s2i_parent_install_dir }}/bin/{{ item }}'
+    state: link
+
+
