@@ -18,6 +18,8 @@
 - when: not s2i_binary_dir.stat.exists
   block:
     - name: download archive...
+      become: yes
+      become_user: root
       get_url:
         url: '{{ s2i_archive_url }}'
         dest: /tmp/{{ s2i_archive }}
@@ -37,6 +39,7 @@
         remote_src: yes
         src: /tmp/{{ s2i_archive }}
         dest: '{{ s2i_ver_install_dir }}'
+        mode: 0755
         creates: '{{ s2i_ver_install_dir }}/s2i'
   always:
     - name: cleanup
@@ -53,5 +56,3 @@
     src: '{{ s2i_ver_install_dir }}/{{ item }}'
     dest: '{{ s2i_parent_install_dir }}/bin/{{ item }}'
     state: link
-
-
